@@ -1,0 +1,35 @@
+﻿@model DidlyVidly.ViewModels.MoviesViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Movies</h2>
+
+@if (Model.Movies.Count == 0)
+{
+    <p>Hmm, we forgot to buy any movies!</p>
+}
+else
+{
+    <p>As of @DateTime.Now.ToString()</p>
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Movie</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var movie in Model.Movies)
+            {
+                <tr>
+                    <td>@movie.Name</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}

@@ -1,0 +1,36 @@
+﻿@model DidlyVidly.ViewModels.CustomersViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+@if (Model.Customers.Count == 0)
+{
+    <p>Hmm, we forgot to get any customers!</p>
+}
+else
+{
+    <p>As of @DateTime.Now.ToString()</p>
+
+    <table class="table table-bordered table-hover">
+        
+        <thead>
+        <tr>
+            <th>Customer</th>
+        </tr>
+        </thead>
+       
+        <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td><a href="Customers/Details/@customer.Id">@customer.Name</a></td>
+            </tr>
+        }
+        </tbody>
+
+    </table>
+}
