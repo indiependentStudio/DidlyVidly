@@ -10,18 +10,24 @@ namespace DidlyVidly.Controllers
 {
     public class CustomersController : Controller
     {
-        List<Customer> customers = new List<Customer>
+        private ApplicationDbContext _context;
+
+        public CustomersController()
         {
-            new Customer { Id = 1, Name = "John Smith"},
-            new Customer { Id = 2, Name = "Mary Williams" }
-        };
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         // GET: Customers
         public ActionResult Index()
         {
             var viewModel = new CustomersViewModel
             {
-                Customers = customers
+                Customers = _context.Customers.ToList()
             };
 
             return View(viewModel);
@@ -29,19 +35,16 @@ namespace DidlyVidly.Controllers
 
         public ActionResult Details(int Id)
         {
-            foreach (Customer c in customers)
-            {
-                if (c.Id == Id)
-                {
-                    var viewModel = new CustomerDetailsViewModel
-                    {
-                        Customer = customers[Id - 1]
-                    };
-                    return View(viewModel);
-                }
-            }
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == Id);
 
-            return HttpNotFound();
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                return View(customer);
+            }
         }
     }
 }
